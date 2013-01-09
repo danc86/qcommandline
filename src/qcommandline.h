@@ -85,6 +85,7 @@ public:
 	Multiple = 0x04, /**< argument can be used multiple time and will produce multiple signals. */
 	MandatoryMultiple = Mandatory|Multiple,
 	OptionalMultiple = Optional|Multiple,
+        ParameterFence = 0x08, /**< all arguments after this point are considered parameters, not options. */
     } Flags;
 
     /**
