@@ -463,6 +463,9 @@ QCommandLine::help(bool logo)
   int max = 0;
 
   foreach (QCommandLineConfigEntry entry, d->config) {
+    if (entry.flags & QCommandLine::SuppressHelp)
+      continue;
+
     QString val;
 
     if (entry.type == QCommandLine::Option) {
