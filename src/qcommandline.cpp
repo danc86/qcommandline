@@ -156,11 +156,13 @@ QCommandLine::parse()
   bool allparam = false;
 
   foreach (QCommandLineConfigEntry entry, d->config) {
-    if (entry.type != QCommandLine::Param && entry.shortName == QLatin1Char('\0'))
+    if (entry.type != QCommandLine::Param && !(entry.flags & QCommandLine::NoShortName)
+        && entry.shortName == QLatin1Char('\0'))
       qWarning() << QLatin1String("QCommandLine: Empty shortname detected");
     if (entry.longName.isEmpty())
-      qWarning() << QLatin1String("QCommandLine: Empty shortname detected");
-    if (entry.type != QCommandLine::Param && conf.find(entry.shortName) != conf.end())
+      qWarning() << QLatin1String("QCommandLine: Empty longname detected");
+    if (entry.type != QCommandLine::Param && !(entry.flags & QCommandLine::NoShortName)
+        && conf.find(entry.shortName) != conf.end())
       qWarning() << QLatin1String("QCommandLine: Duplicated shortname detected ") << entry.shortName;
     if (conf.find(entry.longName) != conf.end())
       qWarning() << QLatin1String("QCommandLine: Duplicated longname detected ") << entry.shortName;
@@ -463,11 +465,16 @@ QCommandLine::help(bool logo)
   foreach (QCommandLineConfigEntry entry, d->config) {
     QString val;
 
-    if (entry.type == QCommandLine::Option)
-      val = QLatin1String("-") + QString(entry.shortName) +
-	QLatin1String(",--") + entry.longName + QLatin1String("=<val>");
-    if (entry.type == QCommandLine::Switch)
-      val = QLatin1String("-") + QString(entry.shortName) + QLatin1String(",--") + entry.longName;
+    if (entry.type == QCommandLine::Option) {
+      if (entry.shortName != QLatin1Char('\0'))
+        val = QLatin1String("-") + QString(entry.shortName) + QLatin1Char(',');
+      val += QLatin1String("--") + entry.longName + QLatin1String("=<val>");
+    }
+    if (entry.type == QCommandLine::Switch) {
+      if (entry.shortName != QLatin1Char('\0'))
+        val = QLatin1String("-") + QString(entry.shortName) + QLatin1Char(',');
+      val += QLatin1String("--") + entry.longName;
+    }
     if (entry.type == QCommandLine::Param)
       val = entry.longName;
 

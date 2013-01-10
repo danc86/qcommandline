@@ -86,6 +86,7 @@ public:
 	MandatoryMultiple = Mandatory|Multiple,
 	OptionalMultiple = Optional|Multiple,
         ParameterFence = 0x08, /**< all arguments after this point are considered parameters, not options. */
+        NoShortName = 0x10, /**< switch or option having only a long name, no short name */
     } Flags;
 
     /**
