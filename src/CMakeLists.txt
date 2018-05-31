@@ -32,12 +32,12 @@ install(FILES
 
 set(qcommandline_MOC_HDRS qcommandline.h)
 
-qt4_wrap_cpp(qcommandline_MOC_SRCS ${qcommandline_MOC_HDRS})
+qt5_wrap_cpp(qcommandline_MOC_SRCS ${qcommandline_MOC_HDRS})
 
 set (qcommandline_SRCS qcommandline.cpp)
 
 add_library (qcommandline ${qcommandline_SRCS} ${qcommandline_MOC_SRCS})
-target_link_libraries( qcommandline ${QT_LIBRARIES})
+target_link_libraries( qcommandline Qt5::Core)
 
 if(BUILD_SHARED_LIBS)
   set_target_properties(qcommandline PROPERTIES

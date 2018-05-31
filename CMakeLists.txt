@@ -42,8 +42,8 @@ if("${CMAKE_BUILD_TYPE}" MATCHES "^Rel.*")
   add_definitions("-DQT_NO_DEBUG_OUTPUT")
 endif("${CMAKE_BUILD_TYPE}" MATCHES "^Rel.*")
 
-# Find Qt4
-find_package( Qt4 REQUIRED )
+# Find Qt5
+find_package( Qt5Core REQUIRED )
 
 set( QT_DONT_USE_QTGUI TRUE )
 
@@ -71,9 +71,6 @@ if (NOT WIN32)
            DESTINATION lib${LIB_SUFFIX}/pkgconfig
 	   COMPONENT devel)
 endif (NOT WIN32)
-
-# Include the cmake file needed to use qt4
-include( ${QT_USE_FILE} )
 
 # Subdirs
 add_subdirectory(src)
